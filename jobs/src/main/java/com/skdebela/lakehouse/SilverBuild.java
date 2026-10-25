@@ -54,7 +54,7 @@ public class SilverBuild {
 
             // 3. De-duplicate within this increment (earliest Kafka offset wins). Cached: used several times below.
             spark.sql("""
-                CACHE TABLE new_events AS
+                CREATE OR REPLACE TEMP VIEW new_events AS
                 SELECT event_id, user_id, page, type, product_id, event_time
                 FROM (
                     SELECT *, row_number() OVER (PARTITION BY event_id ORDER BY kafka_partition, kafka_offset) AS rn

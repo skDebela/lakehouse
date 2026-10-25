@@ -31,7 +31,7 @@ public class OntologyBuild {
             for (var t : ontology.objectTypes()) {
                 long snapshot = currentSnapshot(spark, t.source());
                 snapshots.put(t.source(), snapshot);
-                sources.put(t.name(), spark.sql("SELECT * FROM " + t.source() + " VERSION AS OF " + snapshot).cache());
+                sources.put(t.name(), spark.sql("SELECT * FROM " + t.source() + " VERSION AS OF " + snapshot));
             }
 
             var problems = new ArrayList<String>();

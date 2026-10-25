@@ -7,7 +7,7 @@ public final class Lakehouse {
     private Lakehouse() {}
 
     public static SparkSession session(String appName) {
-        return SparkSession.builder()
+        var builder = SparkSession.builder()
                 .appName(appName)
                 .master(env("SPARK_MASTER", "local[*]"))
                 .config("spark.sql.shuffle.partitions", "4")
@@ -23,8 +23,16 @@ public final class Lakehouse {
                 .config("spark.sql.catalog.lake.s3.path-style-access", "true")
                 .config("spark.sql.catalog.lake.s3.access-key-id", env("S3_ACCESS_KEY", "admin"))
                 .config("spark.sql.catalog.lake.s3.secret-access-key", env("S3_SECRET_KEY", "password"))
-                .config("spark.sql.catalog.lake.client.region", "us-east-1")
-                .getOrCreate();
+                .config("spark.sql.catalog.lake.client.region", "us-east-1");
+
+        // Lineage is on by default; Set OPENLINEAGE_ENABLED=false to run without Marquez.
+        if (!"false".equalsIgnoreCase(env("OPENLINEAGE_ENABLED", "true"))) {
+            builder.config("spark.extraListeners", "io.openlineage.spark.agent.OpenLineageSparkListener")
+                    .config("spark.openlineage.transport.type", "http")
+                    .config("spark.openlineage.transport.url", env("OPENLINEAGE_URL", "http://localhost:5002"))
+                    .config("spark.openlineage.namespace", env("OPENLINEAGE_NAMESPACE", "lakehouse"));
+        }
+        return builder.getOrCreate();
     }
 
     static String env(String key, String fallback) {
