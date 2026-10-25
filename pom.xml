@@ -12,6 +12,7 @@
     <modules>
         <module>ontology</module>
         <module>jobs</module>
+        <module>api</module>
     </modules>
 
     <properties>
@@ -22,6 +23,8 @@
         <iceberg.version>1.12.0</iceberg.version>
         <jackson3.version>3.1.2</jackson3.version>
         <openlineage.version>1.54.0</openlineage.version>
+        <spring-boot.version>4.1.2</spring-boot.version>
+        <trino.version>484</trino.version>
     </properties>
 
     <dependencyManagement>
@@ -71,6 +74,9 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.14.0</version>
+                    <configuration>
+                        <parameters>true</parameters>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>

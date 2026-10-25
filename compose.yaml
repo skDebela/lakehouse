@@ -81,6 +81,15 @@ services:
     depends_on:
       - marquez
 
+  trino:
+    image: trinodb/trino:484
+    ports:
+      - "8090:8080"
+    volumes:
+      - ./trino/catalog:/etc/trino/catalog
+    depends_on:
+      - iceberg-rest
+
 volumes:
   silo-data:
   iceberg-catalog:

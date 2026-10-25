@@ -1,0 +1,10 @@
+server:
+  port: 8070
+
+spring:
+  datasource:
+    url: jdbc:trino://localhost:8090/lake/ontology
+    username: platform
+    driver-class-name: io.trino.jdbc.TrinoDriver
+    hikari:
+      maximum-pool-size: 5

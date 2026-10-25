@@ -38,6 +38,12 @@ public record Ontology(int version, List<ObjectType> objectTypes, List<LinkType>
             t.properties().keySet().stream()
                     .filter(p -> !MEMBER_NAME.matcher(p).matches())
                     .forEach(p -> problems.add("Type '%s': property '%s' must be camelCase".formatted(t.name(), p)));
+
+            var seen = new HashSet<String>();
+            t.properties().keySet().stream()
+                    .filter(p -> !seen.add(p.toLowerCase(java.util.Locale.ROOT)))
+                    .forEach(p -> problems.add("Type '%s': property '%s' differs from another only by letter case"
+                            .formatted(t.name(), p)));
         }
 
         for (var l : linkTypes) {
