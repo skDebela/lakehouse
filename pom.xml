@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>ontology</module>
         <module>jobs</module>
     </modules>
 
@@ -19,6 +20,7 @@
         <spark.version>4.1.2</spark.version>
         <scala.binary.version>2.13</scala.binary.version>
         <iceberg.version>1.12.0</iceberg.version>
+        <jackson3.version>3.1.2</jackson3.version>
     </properties>
 
     <dependencyManagement>
@@ -42,6 +44,16 @@
                 <groupId>org.apache.spark</groupId>
                 <artifactId>spark-sql-kafka-0-10_${scala.binary.version}</artifactId>
                 <version>${spark.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tools.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${jackson3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.skdebela.lakehouse</groupId>
+                <artifactId>ontology</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

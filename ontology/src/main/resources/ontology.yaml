@@ -1,0 +1,49 @@
+version: 1
+
+objectTypes:
+  - name: Customer
+    source: lake.silver.customers
+    primaryKey: customer_id
+    titleProperty: name
+    properties:
+      id: customer_id
+      name: name
+      country: country
+      signupDate: signup_date
+      firstSeen: first_seen
+      lastSeen: last_seen
+      totalOrders: total_orders
+      lifetimeValue: lifetime_value
+
+  - name: Product
+    source: lake.bronze.products
+    primaryKey: product_id
+    titleProperty: name
+    properties:
+      id: product_id
+      name: name
+      category: category
+      price: price
+
+  - name: Order
+    source: lake.silver.orders
+    primaryKey: order_id
+    titleProperty: id
+    properties:
+      id: order_id
+      amount: amount
+      country: country
+      orderedAt: order_time
+
+linkTypes:
+  - name: placedBy
+    from: Order
+    to: Customer
+    foreignKey: customer_id
+    inverse: orders
+
+  - name: contains
+    from: Order
+    to: Product
+    foreignKey: product_id
+    inverse: orders
